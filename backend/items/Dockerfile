@@ -7,4 +7,4 @@ RUN npm install --production
 COPY . .
 
 EXPOSE 3003
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
