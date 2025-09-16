@@ -154,27 +154,6 @@ Ironhack DevOps Bootcamp – Final Project
 
 
 ---
+<img width="709" height="620" alt="image" src="https://github.com/user-attachments/assets/d7228868-2835-4fca-a6c2-d8ece753565c" />
 
-flowchart TD
-  A[User Browser] --> B[Ingress Controller]
 
-  B -->| / | C[Frontend React]
-  B -->| /api/auth | D[Auth Service]
-  B -->| /api/discounts | E[Discounts Service]
-  B -->| /api/items | F[Items Service]
-
-  D --> G[(MongoDB)]
-  E --> G
-  F --> G
-
-  D --> H[Cloudinary API]
-  E --> H
-  F --> H
-
-  subgraph CI/CD
-    I[GitHub Actions]
-    J[Docker Hub Registry]
-    I --> J --> K[AKS Cluster]
-  end
-
-  K --> B
