@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discounts
+  namespace: restauranty
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discounts
+  template:
+    metadata:
+      labels:
+        app: discounts
+    spec:
+      containers:
+        - name: discounts
+          image: sanasiddiqui115/restauranty-discounts:IMAGE_TAG
+          ports:
+            - containerPort: 3002
+          env:
+            - name: SECRET
+              value: "MySecret1!"
+            - name: MONGODB_URI
+              value: "mongodb://mongo:27017/resturanty"
+            - name: CLOUD_NAME
+              value: "dh0nbrf1g"
+            - name: CLOUD_API_KEY
+              value: "473375467426492"
+            - name: CLOUD_API_SECRET
+              value: "lmGPbD1o-swmE6IgTrOR0c1ZK9E"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discounts
+  namespace: restauranty
+spec:
+  ports:
+    - port: 3002
+      targetPort: 3002
+  selector:
+    app: discounts

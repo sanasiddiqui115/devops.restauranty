@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: restauranty
+
+resources:
+  - namespace.yaml
+  - mongo.yaml
+  - auth.yaml
+  - discounts.yaml
+  - items.yaml
+  - frontend.yaml
+  - ingress.yaml
