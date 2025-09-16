@@ -1,0 +1,65 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set SHA Tag
+        id: vars
+        run: echo "sha_tag=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+
+      - name: Build & Push Auth
+        run: |
+          docker build -t sanasiddiqui115/restauranty-auth:${{ steps.vars.outputs.sha_tag }} ./backend/auth
+          docker push sanasiddiqui115/restauranty-auth:${{ steps.vars.outputs.sha_tag }}
+
+      - name: Build & Push Discounts
+        run: |
+          docker build -t sanasiddiqui115/restauranty-discounts:${{ steps.vars.outputs.sha_tag }} ./backend/discounts
+          docker push sanasiddiqui115/restauranty-discounts:${{ steps.vars.outputs.sha_tag }}
+
+      - name: Build & Push Items
+        run: |
+          docker build -t sanasiddiqui115/restauranty-items:${{ steps.vars.outputs.sha_tag }} ./backend/items
+          docker push sanasiddiqui115/restauranty-items:${{ steps.vars.outputs.sha_tag }}
+
+      - name: Build & Push Frontend
+        run: |
+          docker build -t sanasiddiqui115/restauranty-frontend:${{ steps.vars.outputs.sha_tag }} ./client
+          docker push sanasiddiqui115/restauranty-frontend:${{ steps.vars.outputs.sha_tag }}
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: v1.30.0 # match your AKS version
+
+      - name: Set up Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials \
+            --resource-group sanaAKSResourseGroup \
+            --name sanaAKSCluster \
+            --overwrite-existing
+
+      - name: Deploy to AKS
+        run: |
+          sed -i "s|IMAGE_TAG|${{ steps.vars.outputs.sha_tag }}|g" k8s/*.yaml
+          kubectl apply -f k8s/ -n restauranty
