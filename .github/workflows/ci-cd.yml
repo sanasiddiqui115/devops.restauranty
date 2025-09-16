@@ -62,4 +62,4 @@ jobs:
       - name: Deploy to AKS
         run: |
           sed -i "s|IMAGE_TAG|${{ steps.vars.outputs.sha_tag }}|g" k8s/*.yaml
-          kubectl apply -f k8s/ -n restauranty
+          kubectl apply -k k8s/
