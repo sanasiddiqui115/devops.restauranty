@@ -18,9 +18,9 @@ spec:
           image: sanasiddiqui115/restauranty-frontend:IMAGE_TAG
           ports:
             - containerPort: 3000
-          env:
-            - name: REACT_APP_SERVER_URL
-              value: http://20.241.138.94
+          envFrom:
+            - secretRef:
+              name: frontend-secret
 ---
 apiVersion: v1
 kind: Service
