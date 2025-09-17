@@ -39,7 +39,9 @@ jobs:
 
       - name: Build & Push Frontend
         run: |
-          docker build -t sanasiddiqui115/restauranty-frontend:${{ steps.vars.outputs.sha_tag }} ./client
+          docker build \
+            --build-arg REACT_APP_SERVER_URL=http://restauranty.local \
+            -t sanasiddiqui115/restauranty-frontend:${{ steps.vars.outputs.sha_tag }} ./client
           docker push sanasiddiqui115/restauranty-frontend:${{ steps.vars.outputs.sha_tag }}
 
       - name: Set up kubectl
