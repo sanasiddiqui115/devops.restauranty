@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: discounts
-          image: sanasiddiqui115/restauranty-discounts:latest
+          image: sanasiddiqui115/restauranty-discounts:IMAGE_TAG
           ports:
             - containerPort: 3002
           env:

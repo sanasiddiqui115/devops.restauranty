@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: sanasiddiqui115/restauranty-auth:latest
+          image: sanasiddiqui115/restauranty-auth:IMAGE_TAG
           ports:
             - containerPort: 3001
           envFrom:
