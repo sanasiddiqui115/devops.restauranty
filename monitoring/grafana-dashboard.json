@@ -1,0 +1,96 @@
+{
+  "id": null,
+  "title": "Kubernetes Cluster Overview",
+  "timezone": "browser",
+  "schemaVersion": 27,
+  "version": 0,
+  "refresh": "30s",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Pod CPU Usage (cores)",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(rate(container_cpu_usage_seconds_total{image!=\"\"}[2m])) by (pod)",
+          "legendFormat": "{{pod}}"
+        }
+      ],
+      "lines": true,
+      "linewidth": 2,
+      "span": 12
+    },
+    {
+      "type": "graph",
+      "title": "Pod Memory Usage (MB)",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(container_memory_usage_bytes{image!=\"\"}) by (pod) / 1024 / 1024",
+          "legendFormat": "{{pod}}"
+        }
+      ],
+      "lines": true,
+      "linewidth": 2,
+      "span": 12
+    },
+    {
+      "type": "stat",
+      "title": "Pod Restarts",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(kube_pod_container_status_restarts_total)"
+        }
+      ],
+      "colorMode": "value",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "graph",
+      "title": "Discounts Service - CPU Usage",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"restauranty\", pod=~\"discounts.*\"}[2m])) by (pod)",
+          "legendFormat": "{{pod}}"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Items Service - CPU Usage",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"restauranty\", pod=~\"items.*\"}[2m])) by (pod)",
+          "legendFormat": "{{pod}}"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Frontend Service - CPU Usage",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"restauranty\", pod=~\"frontend.*\"}[2m])) by (pod)",
+          "legendFormat": "{{pod}}"
+        }
+      ]
+    }
+  ],
+  "templating": {
+    "list": []
+  }
+}

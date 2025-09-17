@@ -6,6 +6,7 @@ namespace: restauranty
 resources:
   - namespace.yaml
   - mongo.yaml
+  - auth-secrets.yaml
   - auth.yaml
   - discounts.yaml
   - items.yaml
