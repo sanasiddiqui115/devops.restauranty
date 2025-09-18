@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ntp-sync
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: ntp-sync
+  template:
+    metadata:
+      labels:
+        app: ntp-sync
+    spec:
+      hostPID: true
+      containers:
+        - name: ntp
+          image: quay.io/coreos/chrony:latest
+          securityContext:
+            privileged: true
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "server time.google.com iburst" > /etc/chrony/chrony.conf
+              chronyd -d -x
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/chrony
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/chrony
+      tolerations:
+        - operator: "Exists"
+      restartPolicy: Always
