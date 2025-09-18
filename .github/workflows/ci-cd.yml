@@ -40,7 +40,7 @@ jobs:
       - name: Build & Push Frontend
         run: |
           docker build \
-            --build-arg REACT_APP_SERVER_URL=https://sanasiddiquiaws.info/api \
+            --build-arg REACT_APP_SERVER_URL=https://sanasiddiquiaws.info \
             -t sanasiddiqui115/restauranty-frontend:${{ steps.vars.outputs.sha_tag }} ./client
           docker push sanasiddiqui115/restauranty-frontend:${{ steps.vars.outputs.sha_tag }}
 
