@@ -15,12 +15,23 @@ spec:
     spec:
       containers:
         - name: items
-          image: sanasiddiqui115/restauranty-items:IMAGE_TAG
+          image: sanasiddiqui115/restauranty-items:d0e4685
           ports:
             - containerPort: 3003
           envFrom:
             - secretRef:
                 name: items-secret
+              # env:
+              #   - name: SECRET
+              #     value: "MySecret1!"
+              #   - name: MONGODB_URI
+              #     value: "mongodb://mongo:27017/resturanty"
+              #   - name: CLOUD_NAME
+              #     value: "dh0nbrf1g"
+              #   - name: CLOUD_API_KEY
+              #     value: "473375467426492"
+              #   - name: CLOUD_API_SECRET
+              #     value: "lmGPbD1o-swmE6IgTrOR0c1ZK9E"
 ---
 apiVersion: v1
 kind: Service

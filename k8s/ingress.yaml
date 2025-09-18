@@ -4,10 +4,16 @@ metadata:
   name: restauranty-ingress
   namespace: restauranty
   annotations:
-    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - sanasiddiquiaws.info
+      secretName: restauranty-tls
   rules:
-    - http:
+    - host: sanasiddiquiaws.info
+      http:
         paths:
           - path: /api/auth
             pathType: Prefix

@@ -17,7 +17,6 @@ const storage = new CloudinaryStorage({
     use_filename: true,
     unique_filename: false,
   },
-  console.log("📤 Upload Params:", params);
 });
 
 module.exports = multer({ storage });

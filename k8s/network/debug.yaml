@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: net-debug
+  namespace: restauranty
+  labels:
+    app: net-debug
+spec:
+  containers:
+    - name: net-debug
+      image: nicolaka/netshoot
+      command: ["sleep", "3600"]

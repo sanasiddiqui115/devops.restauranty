@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-to-discounts
+  namespace: restauranty
+spec:
+  podSelector:
+    matchLabels:
+      app: discounts
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: frontend
+      ports:
+        - protocol: TCP
+          port: 3002 # adjust if discounts listens on another port
